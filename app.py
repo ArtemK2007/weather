@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 import requests
-
+import os
 app = Flask(__name__)
 
 API_KEY = "8292190e0d8110db3385199884f65846"
@@ -27,4 +27,5 @@ def index():
     return render_template("index.html", weather=weather)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+
