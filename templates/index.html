@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Прогноз погоди</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Roboto+Mono&display=swap" rel="stylesheet" />
+</head>
+<body>
+    <main class="container" role="main">
+        <h1>Прогноз погоди</h1>
+        <form method="POST" aria-label="Форма пошуку погоди за містом">
+            <input
+                type="text"
+                name="city"
+                placeholder="Введіть місто"
+                required
+                aria-required="true"
+                aria-describedby="cityHelp"
+                autocomplete="off"
+            />
+            <button type="submit">Дізнатися погоду</button>
+            <small id="cityHelp">Введіть назву міста українською або англійською</small>
+        </form>
+
+        {% if weather %}
+            {% if weather == "💩" %}
+                <p style="font-size: 5rem; text-align: center;">💩</p>
+            {% elif weather.error %}
+                <p class="error">{{ weather.error }}</p>
+            {% else %}
+                <h2>{{ weather.name }}, {{ weather.sys.country }}</h2>
+                <img src="http://openweathermap.org/img/wn/{{ weather.weather[0].icon }}@4x.png" alt="Іконка погоди: {{ weather.weather[0].description }}" />
+                <p><strong>{{ weather.weather[0].description|capitalize }}</strong></p>
+                <p>Температура: {{ weather.main.temp }}°C</p>
+                <p>Вологість: {{ weather.main.humidity }}%</p>
+                <p>Вітер: {{ weather.wind.speed }} м/с</p>
+            {% endif %}
+        {% endif %}
+    </main>
+</body>
+</html>
