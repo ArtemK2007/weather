@@ -4,6 +4,7 @@ import os
 app = Flask(__name__)
 
 API_KEY = "8292190e0d8110db3385199884f65846"
+API_KEY = os.environ.get("API_KEY")
 
 @app.route("/", methods=["GET", "POST"])
 def index():
